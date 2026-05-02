@@ -4,688 +4,323 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0a0f1e">
-<meta name="description" content="حاسبة GPA للنظام السعودي والأمريكي">
-<title>حاسبة GPA | Madarna Tullab</title>
+<meta name="description" content="GPA Calculator - Saudi & US Systems | حاسبة GPA للنظام السعودي والأمريكي">
+<title>GPA Calculator | Madarna Tullab</title>
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="حاسبة GPA">
+<meta name="apple-mobile-web-app-title" content="GPA Calc">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy: #0a0f1e;
-    --navy-2: #111827;
-    --navy-3: #1a2540;
-    --gold: #c9a84c;
-    --gold-light: #e8c97a;
-    --gold-dim: rgba(201,168,76,0.15);
-    --gold-border: rgba(201,168,76,0.3);
-    --white: #f5f0e8;
-    --white-dim: rgba(245,240,232,0.6);
-    --red: #e05555;
-    --green: #4caf82;
-    --radius: 14px;
-    --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    --navy:#0a0f1e;--navy-2:#111827;--navy-3:#1a2540;
+    --gold:#c9a84c;--gold-dim:rgba(201,168,76,0.15);--gold-border:rgba(201,168,76,0.3);
+    --white:#f5f0e8;--white-dim:rgba(245,240,232,0.6);
+    --red:#e05555;--radius:14px;--shadow:0 8px 32px rgba(0,0,0,0.4);
   }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--navy);color:var(--white);font-family:'IBM Plex Sans Arabic',sans-serif;min-height:100vh;
+    background-image:radial-gradient(ellipse at 20% 0%,rgba(201,168,76,0.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(10,30,80,0.6) 0%,transparent 60%);}
+  body.en{font-family:'IBM Plex Sans',sans-serif;}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .lang-toggle{position:absolute;top:16px;left:16px;display:flex;background:var(--navy-2);border:1px solid var(--gold-border);border-radius:20px;overflow:hidden;}
+  .lang-btn{padding:5px 14px;border:none;background:transparent;color:var(--white-dim);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.2s;letter-spacing:1px;}
+  .lang-btn.active{background:var(--gold);color:var(--navy);font-weight:700;}
 
-  body {
-    background: var(--navy);
-    color: var(--white);
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-    min-height: 100vh;
-    background-image:
-      radial-gradient(ellipse at 20% 0%, rgba(201,168,76,0.08) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 100%, rgba(10,30,80,0.6) 0%, transparent 60%);
-  }
+  header{text-align:center;padding:48px 20px 32px;position:relative;}
+  header::after{content:'';display:block;width:80px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:20px auto 0;}
+  .brand{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;opacity:0.8;}
+  h1{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,42px);font-weight:700;color:var(--white);line-height:1.2;}
+  h1 span{color:var(--gold);}
+  .subtitle{margin-top:10px;font-size:14px;color:var(--white-dim);font-weight:300;}
 
-  /* ─── Header ─── */
-  header {
-    text-align: center;
-    padding: 48px 20px 32px;
-    position: relative;
-  }
-  header::after {
-    content: '';
-    display: block;
-    width: 80px; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    margin: 20px auto 0;
-  }
-  .brand {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    opacity: 0.8;
-  }
-  h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(28px, 5vw, 42px);
-    font-weight: 700;
-    color: var(--white);
-    line-height: 1.2;
-  }
-  h1 span { color: var(--gold); }
-  .subtitle {
-    margin-top: 10px;
-    font-size: 14px;
-    color: var(--white-dim);
-    font-weight: 300;
-  }
+  .container{max-width:760px;margin:0 auto;padding:0 16px 80px;}
 
-  /* ─── Main Layout ─── */
-  .container {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 0 16px 80px;
-  }
+  .tabs{display:flex;gap:8px;margin-bottom:24px;background:var(--navy-2);padding:6px;border-radius:var(--radius);border:1px solid var(--gold-border);}
+  .tab{flex:1;padding:12px;border:none;background:transparent;color:var(--white-dim);font-size:14px;font-weight:500;border-radius:10px;cursor:pointer;transition:all 0.25s;font-family:inherit;}
+  .tab.active{background:var(--gold);color:var(--navy);font-weight:600;}
+  .tab:not(.active):hover{color:var(--white);background:var(--navy-3);}
 
-  /* ─── System Tabs ─── */
-  .tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 24px;
-    background: var(--navy-2);
-    padding: 6px;
-    border-radius: var(--radius);
-    border: 1px solid var(--gold-border);
-  }
-  .tab {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    background: transparent;
-    color: var(--white-dim);
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.25s;
-  }
-  .tab.active {
-    background: var(--gold);
-    color: var(--navy);
-    font-weight: 600;
-  }
-  .tab:not(.active):hover { color: var(--white); background: var(--navy-3); }
+  .scale-row{display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap;}
+  .scale-label{font-size:13px;color:var(--white-dim);}
+  .scale-btns{display:flex;gap:6px;}
+  .scale-btn{padding:6px 18px;border-radius:20px;border:1px solid var(--gold-border);background:transparent;color:var(--white-dim);font-family:'IBM Plex Mono',monospace;font-size:13px;cursor:pointer;transition:all 0.2s;}
+  .scale-btn.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold);}
 
-  /* ─── Scale Selector ─── */
-  .scale-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-  }
-  .scale-label {
-    font-size: 13px;
-    color: var(--white-dim);
-  }
-  .scale-btns { display: flex; gap: 6px; }
-  .scale-btn {
-    padding: 6px 18px;
-    border-radius: 20px;
-    border: 1px solid var(--gold-border);
-    background: transparent;
-    color: var(--white-dim);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .scale-btn.active {
-    background: var(--gold-dim);
-    border-color: var(--gold);
-    color: var(--gold);
-  }
+  .card{background:var(--navy-2);border:1px solid var(--gold-border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow);}
+  .card-header{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(201,168,76,0.1);}
+  .card-title{font-size:13px;font-weight:600;color:var(--gold);letter-spacing:1px;text-transform:uppercase;font-family:'IBM Plex Mono',monospace;}
 
-  /* ─── Courses Card ─── */
-  .card {
-    background: var(--navy-2);
-    border: 1px solid var(--gold-border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    margin-bottom: 16px;
-    box-shadow: var(--shadow);
-  }
-  .card-header {
-    padding: 16px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(201,168,76,0.1);
-  }
-  .card-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--gold);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-family: 'IBM Plex Mono', monospace;
-  }
+  .courses-list{padding:12px;display:flex;flex-direction:column;gap:8px;}
+  .course-row{display:grid;grid-template-columns:1fr 90px 90px 36px;gap:8px;align-items:center;animation:fadeIn 0.2s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  .course-row input,.course-row select{background:var(--navy-3);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:10px 12px;color:var(--white);font-family:inherit;font-size:14px;width:100%;transition:border-color 0.2s;outline:none;}
+  .course-row input:focus,.course-row select:focus{border-color:var(--gold);}
+  .course-row input::placeholder{color:rgba(245,240,232,0.3);}
+  .course-row select option{background:var(--navy-2);}
+  .del-btn{width:36px;height:36px;border-radius:8px;border:1px solid rgba(224,85,85,0.3);background:transparent;color:var(--red);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+  .del-btn:hover{background:rgba(224,85,85,0.15);border-color:var(--red);}
+  .add-btn{width:calc(100% - 24px);margin:4px 12px 12px;padding:12px;border:1px dashed var(--gold-border);border-radius:8px;background:transparent;color:var(--gold);font-family:inherit;font-size:14px;cursor:pointer;transition:all 0.2s;}
+  .add-btn:hover{background:var(--gold-dim);border-color:var(--gold);}
+  .col-headers{display:grid;grid-template-columns:1fr 90px 90px 36px;gap:8px;padding:0 12px 4px;font-size:11px;color:var(--white-dim);}
 
-  /* ─── Course Row ─── */
-  .courses-list { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
-  .course-row {
-    display: grid;
-    grid-template-columns: 1fr 90px 90px 36px;
-    gap: 8px;
-    align-items: center;
-    animation: fadeIn 0.2s ease;
-  }
-  @keyframes fadeIn { from { opacity:0; transform: translateY(-6px); } to { opacity:1; transform:none; } }
+  .result-card{background:linear-gradient(135deg,var(--navy-3),var(--navy-2));border:1px solid var(--gold-border);border-radius:var(--radius);padding:28px 24px;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+  .result-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+  .result-label{font-size:12px;color:var(--white-dim);letter-spacing:2px;text-transform:uppercase;font-family:'IBM Plex Mono',monospace;margin-bottom:12px;}
+  .result-gpa{font-family:'Playfair Display',serif;font-size:clamp(52px,10vw,72px);font-weight:700;color:var(--gold);line-height:1;}
+  .result-scale{font-size:20px;color:var(--white-dim);margin-right:4px;}
+  .result-grade{margin-top:12px;font-size:18px;font-weight:600;letter-spacing:1px;}
+  .result-details{margin-top:16px;display:flex;justify-content:center;gap:32px;flex-wrap:wrap;}
+  .detail-item{text-align:center;}
+  .detail-val{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:500;color:var(--white);}
+  .detail-lbl{font-size:11px;color:var(--white-dim);margin-top:2px;}
+  .grade-a{color:#4caf82;}.grade-b{color:#7db8e8;}.grade-c{color:#c9a84c;}.grade-d{color:#e08855;}.grade-f{color:#e05555;}
 
-  .course-row input, .course-row select {
-    background: var(--navy-3);
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 8px;
-    padding: 10px 12px;
-    color: var(--white);
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-    font-size: 14px;
-    width: 100%;
-    transition: border-color 0.2s;
-    outline: none;
-  }
-  .course-row input:focus, .course-row select:focus {
-    border-color: var(--gold);
-  }
-  .course-row input::placeholder { color: rgba(245,240,232,0.3); }
-  .course-row select option { background: var(--navy-2); }
+  .reset-btn{display:block;margin:16px auto 0;padding:10px 32px;border-radius:8px;border:1px solid var(--gold-border);background:transparent;color:var(--white-dim);font-family:inherit;font-size:14px;cursor:pointer;transition:all 0.2s;}
+  .reset-btn:hover{border-color:var(--gold);color:var(--gold);}
 
-  .del-btn {
-    width: 36px; height: 36px;
-    border-radius: 8px;
-    border: 1px solid rgba(224,85,85,0.3);
-    background: transparent;
-    color: var(--red);
-    font-size: 16px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
-    flex-shrink: 0;
-  }
-  .del-btn:hover { background: rgba(224,85,85,0.15); border-color: var(--red); }
+  .ref-toggle{width:100%;padding:14px 20px;background:var(--navy-2);border:1px solid var(--gold-border);border-radius:var(--radius);color:var(--white-dim);font-family:inherit;font-size:14px;cursor:pointer;text-align:right;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;transition:all 0.2s;}
+  .ref-toggle:hover{border-color:var(--gold);color:var(--white);}
+  .ref-toggle .arrow{transition:transform 0.3s;font-size:10px;}
+  .ref-toggle.open .arrow{transform:rotate(180deg);}
+  .ref-table-wrap{display:none;background:var(--navy-2);border:1px solid var(--gold-border);border-radius:var(--radius);overflow:hidden;margin-bottom:24px;}
+  .ref-table-wrap.open{display:block;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{background:var(--navy-3);padding:10px 16px;text-align:right;color:var(--gold);font-weight:600;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;}
+  td{padding:9px 16px;border-top:1px solid rgba(201,168,76,0.08);color:var(--white-dim);}
+  tr:hover td{background:rgba(201,168,76,0.04);}
 
-  /* ─── Add Button ─── */
-  .add-btn {
-    width: 100%;
-    padding: 12px;
-    margin: 4px 12px 12px;
-    width: calc(100% - 24px);
-    border: 1px dashed var(--gold-border);
-    border-radius: 8px;
-    background: transparent;
-    color: var(--gold);
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .add-btn:hover { background: var(--gold-dim); border-color: var(--gold); }
+  .install-btn{display:none;margin:0 auto 16px;padding:14px 32px;background:var(--gold);color:var(--navy);border:none;border-radius:10px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;width:100%;max-width:300px;}
+  .pwa-hint{text-align:center;padding:14px;font-size:12px;color:rgba(245,240,232,0.35);font-family:'IBM Plex Mono',monospace;letter-spacing:0.5px;}
 
-  /* ─── Column Headers ─── */
-  .col-headers {
-    display: grid;
-    grid-template-columns: 1fr 90px 90px 36px;
-    gap: 8px;
-    padding: 0 12px 4px;
-    font-size: 11px;
-    color: var(--white-dim);
-    letter-spacing: 0.5px;
-  }
-
-  /* ─── Result ─── */
-  .result-card {
-    background: linear-gradient(135deg, var(--navy-3), var(--navy-2));
-    border: 1px solid var(--gold-border);
-    border-radius: var(--radius);
-    padding: 28px 24px;
-    text-align: center;
-    box-shadow: var(--shadow);
-    position: relative;
-    overflow: hidden;
-  }
-  .result-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  }
-  .result-label {
-    font-size: 12px;
-    color: var(--white-dim);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-family: 'IBM Plex Mono', monospace;
-    margin-bottom: 12px;
-  }
-  .result-gpa {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(52px, 10vw, 72px);
-    font-weight: 700;
-    color: var(--gold);
-    line-height: 1;
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  .result-scale {
-    font-size: 20px;
-    color: var(--white-dim);
-    margin-right: 4px;
-  }
-  .result-grade {
-    margin-top: 12px;
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 1px;
-  }
-  .result-details {
-    margin-top: 16px;
-    display: flex;
-    justify-content: center;
-    gap: 32px;
-    flex-wrap: wrap;
-  }
-  .detail-item { text-align: center; }
-  .detail-val {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--white);
-  }
-  .detail-lbl {
-    font-size: 11px;
-    color: var(--white-dim);
-    margin-top: 2px;
-  }
-
-  /* grade colors */
-  .grade-a { color: #4caf82; }
-  .grade-b { color: #7db8e8; }
-  .grade-c { color: #c9a84c; }
-  .grade-d { color: #e08855; }
-  .grade-f { color: #e05555; }
-
-  /* ─── Reset btn ─── */
-  .reset-btn {
-    display: block;
-    margin: 16px auto 0;
-    padding: 10px 32px;
-    border-radius: 8px;
-    border: 1px solid var(--gold-border);
-    background: transparent;
-    color: var(--white-dim);
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .reset-btn:hover { border-color: var(--gold); color: var(--gold); }
-
-  /* ─── Grade Reference ─── */
-  .ref-toggle {
-    width: 100%;
-    padding: 14px 20px;
-    background: var(--navy-2);
-    border: 1px solid var(--gold-border);
-    border-radius: var(--radius);
-    color: var(--white-dim);
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    text-align: right;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    transition: all 0.2s;
-  }
-  .ref-toggle:hover { border-color: var(--gold); color: var(--white); }
-  .ref-toggle .arrow { transition: transform 0.3s; font-size: 10px; }
-  .ref-toggle.open .arrow { transform: rotate(180deg); }
-
-  .ref-table-wrap {
-    display: none;
-    background: var(--navy-2);
-    border: 1px solid var(--gold-border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    margin-bottom: 24px;
-  }
-  .ref-table-wrap.open { display: block; }
-
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th {
-    background: var(--navy-3);
-    padding: 10px 16px;
-    text-align: right;
-    color: var(--gold);
-    font-weight: 600;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 1px;
-  }
-  td { padding: 9px 16px; border-top: 1px solid rgba(201,168,76,0.08); color: var(--white-dim); }
-  tr:hover td { background: rgba(201,168,76,0.04); }
-
-  /* ─── PWA install hint ─── */
-  .pwa-hint {
-    text-align: center;
-    padding: 14px;
-    font-size: 12px;
-    color: rgba(245,240,232,0.35);
-    font-family: 'IBM Plex Mono', monospace;
-    letter-spacing: 0.5px;
-  }
-
-  @media (max-width: 480px) {
-    .course-row { grid-template-columns: 1fr 80px 80px 34px; gap: 6px; }
-    .course-row input, .course-row select { padding: 9px 8px; font-size: 13px; }
-    .col-headers { display: none; }
+  @media(max-width:480px){
+    .course-row{grid-template-columns:1fr 80px 80px 34px;gap:6px;}
+    .course-row input,.course-row select{padding:9px 8px;font-size:13px;}
+    .col-headers{display:none;}
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="brand">Madarna Tullab · أدوات الطالب</div>
-  <h1>حاسبة <span>GPA</span></h1>
-  <p class="subtitle">النظام السعودي (4.0 / 5.0) والأمريكي · تعمل بدون إنترنت</p>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('ar')">AR</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+  <div class="brand" id="txtBrand">Madarna Tullab · أدوات الطالب</div>
+  <h1 id="txtTitle">حاسبة <span>GPA</span></h1>
+  <p class="subtitle" id="txtSubtitle">النظام السعودي (4.0 / 5.0) والأمريكي · تعمل بدون إنترنت</p>
 </header>
 
 <div class="container">
-
-  <!-- System Tabs -->
   <div class="tabs">
-    <button class="tab active" onclick="setSystem('saudi')">🇸🇦 النظام السعودي</button>
-    <button class="tab" onclick="setSystem('us')">🇺🇸 النظام الأمريكي</button>
+    <button class="tab active" id="tabSaudi" onclick="setSystem('saudi')">🇸🇦 النظام السعودي</button>
+    <button class="tab" id="tabUS" onclick="setSystem('us')">🇺🇸 النظام الأمريكي</button>
   </div>
-
-  <!-- Scale (Saudi only) -->
   <div class="scale-row" id="scaleRow">
-    <span class="scale-label">المقياس:</span>
+    <span class="scale-label" id="txtScale">المقياس:</span>
     <div class="scale-btns">
       <button class="scale-btn active" onclick="setScale(4)">4.0</button>
       <button class="scale-btn" onclick="setScale(5)">5.0</button>
     </div>
   </div>
-
-  <!-- Grade Reference -->
   <button class="ref-toggle" id="refToggle" onclick="toggleRef()">
-    <span>جدول الدرجات المرجعي ▾</span>
+    <span id="txtRefLabel">جدول الدرجات المرجعي</span>
     <span class="arrow">▾</span>
   </button>
-  <div class="ref-table-wrap" id="refTable">
-    <table id="gradeTable"></table>
-  </div>
-
-  <!-- Courses Card -->
+  <div class="ref-table-wrap" id="refTable"><table id="gradeTable"></table></div>
   <div class="card">
     <div class="card-header">
-      <span class="card-title">المواد الدراسية</span>
+      <span class="card-title" id="txtCoursesTitle">المواد الدراسية</span>
       <span style="font-size:12px;color:var(--white-dim)" id="courseCount">0 مادة</span>
     </div>
     <div class="col-headers">
-      <span>اسم المادة (اختياري)</span>
-      <span>الساعات</span>
-      <span>الدرجة</span>
+      <span id="txtColName">اسم المادة (اختياري)</span>
+      <span id="txtColHours">الساعات</span>
+      <span id="txtColGrade">الدرجة</span>
       <span></span>
     </div>
     <div class="courses-list" id="coursesList"></div>
-    <button class="add-btn" onclick="addCourse()">+ إضافة مادة</button>
+    <button class="add-btn" id="addBtn" onclick="addCourse()">+ إضافة مادة</button>
   </div>
-
-  <!-- Result -->
-  <div class="result-card" id="resultCard">
-    <div class="result-label">المعدل التراكمي · GPA</div>
-    <div class="result-gpa" id="gpaVal">
+  <div class="result-card">
+    <div class="result-label" id="txtResultLabel">المعدل التراكمي · GPA</div>
+    <div class="result-gpa">
       <span class="result-scale" id="scaleLabel">/4.0</span>
       <span id="gpaNum">—</span>
     </div>
     <div class="result-grade" id="gradeLabel">أضف مواد لحساب المعدل</div>
     <div class="result-details" id="resultDetails"></div>
-    <button class="reset-btn" onclick="resetAll()">إعادة تعيين</button>
+    <button class="reset-btn" id="resetBtn" onclick="resetAll()">إعادة تعيين</button>
   </div>
-
-  <button id="installBtn" onclick="installApp()" style="display:none;margin:0 auto 16px;padding:14px 32px;background:var(--gold);color:var(--navy);border:none;border-radius:10px;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:15px;font-weight:600;cursor:pointer;display:none;width:100%;max-width:300px;">
-    ⬇ تثبيت التطبيق على جهازك
-  </button>
-  <div class="pwa-hint">يمكنك تثبيت هذه الأداة على جهازك للاستخدام بدون إنترنت</div>
-
+  <button class="install-btn" id="installBtn" onclick="installApp()">⬇ تثبيت التطبيق على جهازك</button>
+  <div class="pwa-hint" id="txtHint">يمكنك تثبيت هذه الأداة على جهازك للاستخدام بدون إنترنت</div>
 </div>
 
 <script>
-// ─── Data ───────────────────────────────────────────
-const GRADES = {
-  saudi4: [
-    { letter:'A+', min:95, gpa:4.0 },
-    { letter:'A',  min:90, gpa:3.75 },
-    { letter:'B+', min:85, gpa:3.5 },
-    { letter:'B',  min:80, gpa:3.0 },
-    { letter:'C+', min:75, gpa:2.5 },
-    { letter:'C',  min:70, gpa:2.0 },
-    { letter:'D+', min:65, gpa:1.5 },
-    { letter:'D',  min:60, gpa:1.0 },
-    { letter:'F',  min:0,  gpa:0.0 },
-  ],
-  saudi5: [
-    { letter:'A+', min:95, gpa:5.0 },
-    { letter:'A',  min:90, gpa:4.75 },
-    { letter:'B+', min:85, gpa:4.5 },
-    { letter:'B',  min:80, gpa:4.0 },
-    { letter:'C+', min:75, gpa:3.5 },
-    { letter:'C',  min:70, gpa:3.0 },
-    { letter:'D+', min:65, gpa:2.5 },
-    { letter:'D',  min:60, gpa:2.0 },
-    { letter:'F',  min:0,  gpa:0.0 },
-  ],
-  us: [
-    { letter:'A',  min:93, gpa:4.0 },
-    { letter:'A-', min:90, gpa:3.7 },
-    { letter:'B+', min:87, gpa:3.3 },
-    { letter:'B',  min:83, gpa:3.0 },
-    { letter:'B-', min:80, gpa:2.7 },
-    { letter:'C+', min:77, gpa:2.3 },
-    { letter:'C',  min:73, gpa:2.0 },
-    { letter:'C-', min:70, gpa:1.7 },
-    { letter:'D+', min:67, gpa:1.3 },
-    { letter:'D',  min:63, gpa:1.0 },
-    { letter:'D-', min:60, gpa:0.7 },
-    { letter:'F',  min:0,  gpa:0.0 },
-  ]
+const T = {
+  ar:{
+    brand:'Madarna Tullab · أدوات الطالب',title:'حاسبة <span>GPA</span>',
+    subtitle:'النظام السعودي (4.0 / 5.0) والأمريكي · تعمل بدون إنترنت',
+    tabSaudi:'🇸🇦 النظام السعودي',tabUS:'🇺🇸 النظام الأمريكي',
+    scale:'المقياس:',refLabel:'جدول الدرجات المرجعي',
+    coursesTitle:'المواد الدراسية',colName:'اسم المادة (اختياري)',colHours:'الساعات',colGrade:'الدرجة',
+    addBtn:'+ إضافة مادة',resultLabel:'المعدل التراكمي · GPA',reset:'إعادة تعيين',
+    install:'⬇ تثبيت التطبيق على جهازك',hint:'يمكنك تثبيت هذه الأداة على جهازك للاستخدام بدون إنترنت',
+    ph_name:'اسم المادة',ph_hours:'ساعات',courseCount:(n)=>n+' مادة',empty:'أضف مواد لحساب المعدل',
+    grades:{a:'ممتاز',b:'جيد جداً',c:'جيد',d:'مقبول',f:'راسب'},
+    details:{hours:'ساعات معتمدة',courses:'عدد المواد',points:'مجموع النقاط'},
+    refHeaders:['الدرجة','النسبة المئوية','GPA'],dir:'rtl'
+  },
+  en:{
+    brand:'Madarna Tullab · Student Tools',title:'<span>GPA</span> Calculator',
+    subtitle:'Saudi System (4.0 / 5.0) & US System · Works Offline',
+    tabSaudi:'🇸🇦 Saudi System',tabUS:'🇺🇸 US System',
+    scale:'Scale:',refLabel:'Grade Reference Table',
+    coursesTitle:'Courses',colName:'Course Name (optional)',colHours:'Credits',colGrade:'Grade',
+    addBtn:'+ Add Course',resultLabel:'Cumulative GPA',reset:'Reset',
+    install:'⬇ Install App on Your Device',hint:'You can install this tool on your device to use it offline',
+    ph_name:'Course name',ph_hours:'Credits',courseCount:(n)=>n+' course'+(n!==1?'s':''),empty:'Add courses to calculate GPA',
+    grades:{a:'Excellent',b:'Very Good',c:'Good',d:'Pass',f:'Fail'},
+    details:{hours:'Credit Hours',courses:'Courses',points:'Total Points'},
+    refHeaders:['Grade','Percentage','GPA'],dir:'ltr'
+  }
 };
 
-let system = 'saudi'; // 'saudi' | 'us'
-let scale  = 4;       // 4 | 5
-let courses = [];
-let nextId  = 0;
+const GRADES = {
+  saudi4:[{letter:'A+',min:95,gpa:4.0},{letter:'A',min:90,gpa:3.75},{letter:'B+',min:85,gpa:3.5},{letter:'B',min:80,gpa:3.0},{letter:'C+',min:75,gpa:2.5},{letter:'C',min:70,gpa:2.0},{letter:'D+',min:65,gpa:1.5},{letter:'D',min:60,gpa:1.0},{letter:'F',min:0,gpa:0.0}],
+  saudi5:[{letter:'A+',min:95,gpa:5.0},{letter:'A',min:90,gpa:4.75},{letter:'B+',min:85,gpa:4.5},{letter:'B',min:80,gpa:4.0},{letter:'C+',min:75,gpa:3.5},{letter:'C',min:70,gpa:3.0},{letter:'D+',min:65,gpa:2.5},{letter:'D',min:60,gpa:2.0},{letter:'F',min:0,gpa:0.0}],
+  us:[{letter:'A',min:93,gpa:4.0},{letter:'A-',min:90,gpa:3.7},{letter:'B+',min:87,gpa:3.3},{letter:'B',min:83,gpa:3.0},{letter:'B-',min:80,gpa:2.7},{letter:'C+',min:77,gpa:2.3},{letter:'C',min:73,gpa:2.0},{letter:'C-',min:70,gpa:1.7},{letter:'D+',min:67,gpa:1.3},{letter:'D',min:63,gpa:1.0},{letter:'D-',min:60,gpa:0.7},{letter:'F',min:0,gpa:0.0}]
+};
 
-function getGradeList() {
-  if (system === 'us') return GRADES.us;
-  return scale === 5 ? GRADES.saudi5 : GRADES.saudi4;
+let lang='ar', system='saudi', scale=4, courses=[], nextId=0;
+const tx=()=>T[lang];
+const getGradeList=()=>system==='us'?GRADES.us:(scale===5?GRADES.saudi5:GRADES.saudi4);
+const getMaxGpa=()=>system==='us'?4.0:scale;
+
+function setLang(l){
+  lang=l;
+  const isAr=l==='ar';
+  document.documentElement.lang=l;
+  document.documentElement.dir=isAr?'rtl':'ltr';
+  document.body.classList.toggle('en',!isAr);
+  document.querySelectorAll('.lang-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&isAr)||(i===1&&!isAr)));
+  document.querySelector('.ref-toggle').style.textAlign=isAr?'right':'left';
+  const t=tx();
+  document.getElementById('txtBrand').textContent=t.brand;
+  document.getElementById('txtTitle').innerHTML=t.title;
+  document.getElementById('txtSubtitle').textContent=t.subtitle;
+  document.getElementById('tabSaudi').textContent=t.tabSaudi;
+  document.getElementById('tabUS').textContent=t.tabUS;
+  document.getElementById('txtScale').textContent=t.scale;
+  document.getElementById('txtRefLabel').textContent=t.refLabel;
+  document.getElementById('txtCoursesTitle').textContent=t.coursesTitle;
+  document.getElementById('txtColName').textContent=t.colName;
+  document.getElementById('txtColHours').textContent=t.colHours;
+  document.getElementById('txtColGrade').textContent=t.colGrade;
+  document.getElementById('addBtn').textContent=t.addBtn;
+  document.getElementById('txtResultLabel').textContent=t.resultLabel;
+  document.getElementById('resetBtn').textContent=t.reset;
+  document.getElementById('installBtn').textContent=t.install;
+  document.getElementById('txtHint').textContent=t.hint;
+  render(); updateRef(); calculate();
 }
-function getMaxGpa() { return system === 'us' ? 4.0 : scale; }
 
-// ─── System & Scale ──────────────────────────────────
-function setSystem(s) {
-  system = s;
-  document.querySelectorAll('.tab').forEach((t,i)=> t.classList.toggle('active', (i===0&&s==='saudi')||(i===1&&s==='us')));
-  document.getElementById('scaleRow').style.display = s==='saudi' ? 'flex' : 'none';
-  rebuildGradeSelects();
-  updateRef();
+function setSystem(s){
+  system=s;
+  document.querySelectorAll('.tab').forEach((tb,i)=>tb.classList.toggle('active',(i===0&&s==='saudi')||(i===1&&s==='us')));
+  document.getElementById('scaleRow').style.display=s==='saudi'?'flex':'none';
+  rebuildGradeSelects(); updateRef(); calculate();
+}
+function setScale(v){
+  scale=v;
+  document.querySelectorAll('.scale-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&v===4)||(i===1&&v===5)));
+  rebuildGradeSelects(); updateRef(); calculate();
+}
+
+function addCourse(){courses.push({id:nextId++,name:'',hours:3,grade:getGradeList()[0].letter});render();}
+function removeCourse(id){courses=courses.filter(c=>c.id!==id);render();}
+function updateField(id,field,val){
+  const c=courses.find(c=>c.id===id);if(!c)return;
+  if(field==='hours')c.hours=parseFloat(val)||0;
+  else if(field==='grade')c.grade=val;
+  else c.name=val;
   calculate();
 }
-function setScale(v) {
-  scale = v;
-  document.querySelectorAll('.scale-btn').forEach((b,i)=> b.classList.toggle('active', (i===0&&v===4)||(i===1&&v===5)));
-  rebuildGradeSelects();
-  updateRef();
-  calculate();
-}
 
-// ─── Courses ─────────────────────────────────────────
-function addCourse() {
-  courses.push({ id: nextId++, name:'', hours:3, grade: getGradeList()[0].letter });
-  render();
-}
-function removeCourse(id) {
-  courses = courses.filter(c=>c.id!==id);
-  render();
-}
-function updateField(id, field, val) {
-  const c = courses.find(c=>c.id===id);
-  if (!c) return;
-  if (field==='hours') c.hours = parseFloat(val)||0;
-  else if (field==='grade') c.grade = val;
-  else c.name = val;
-  calculate();
-}
-
-function render() {
-  const list = document.getElementById('coursesList');
-  const gradeList = getGradeList();
-  list.innerHTML = '';
-  courses.forEach(c => {
-    const row = document.createElement('div');
-    row.className = 'course-row';
-    const opts = gradeList.map(g=>`<option value="${g.letter}" ${c.grade===g.letter?'selected':''}>${g.letter} (${g.gpa.toFixed(2)})</option>`).join('');
-    row.innerHTML = `
-      <input type="text" placeholder="اسم المادة" value="${c.name}" oninput="updateField(${c.id},'name',this.value)">
-      <input type="number" min="1" max="6" step="0.5" value="${c.hours}" oninput="updateField(${c.id},'hours',this.value)" placeholder="ساعات">
+function render(){
+  const list=document.getElementById('coursesList');
+  const gradeList=getGradeList();
+  const t=tx();
+  list.innerHTML='';
+  courses.forEach(c=>{
+    const row=document.createElement('div');
+    row.className='course-row';
+    const opts=gradeList.map(g=>`<option value="${g.letter}" ${c.grade===g.letter?'selected':''}>${g.letter} (${g.gpa.toFixed(2)})</option>`).join('');
+    row.innerHTML=`
+      <input type="text" placeholder="${t.ph_name}" value="${c.name}" oninput="updateField(${c.id},'name',this.value)">
+      <input type="number" min="1" max="6" step="0.5" value="${c.hours}" oninput="updateField(${c.id},'hours',this.value)" placeholder="${t.ph_hours}">
       <select onchange="updateField(${c.id},'grade',this.value)">${opts}</select>
-      <button class="del-btn" onclick="removeCourse(${c.id})">×</button>
-    `;
+      <button class="del-btn" onclick="removeCourse(${c.id})">×</button>`;
     list.appendChild(row);
   });
-  document.getElementById('courseCount').textContent = courses.length + ' مادة';
+  document.getElementById('courseCount').textContent=t.courseCount(courses.length);
   calculate();
 }
 
-function rebuildGradeSelects() {
-  const gradeList = getGradeList();
-  // reset grades to first option if current grade not in new list
-  courses.forEach(c => {
-    if (!gradeList.find(g=>g.letter===c.grade)) c.grade = gradeList[0].letter;
-  });
+function rebuildGradeSelects(){
+  const gl=getGradeList();
+  courses.forEach(c=>{if(!gl.find(g=>g.letter===c.grade))c.grade=gl[0].letter;});
   render();
 }
 
-// ─── Calculate ───────────────────────────────────────
-function calculate() {
-  const gradeList = getGradeList();
-  const maxGpa = getMaxGpa();
-
-  let totalPoints = 0, totalHours = 0;
-  courses.forEach(c => {
-    const g = gradeList.find(x=>x.letter===c.grade);
-    if (g && c.hours > 0) {
-      totalPoints += g.gpa * c.hours;
-      totalHours  += c.hours;
-    }
-  });
-
-  const gpaNum = document.getElementById('gpaNum');
-  const gradeLabel = document.getElementById('gradeLabel');
-  const resultDetails = document.getElementById('resultDetails');
-  document.getElementById('scaleLabel').textContent = '/' + maxGpa.toFixed(1);
-
-  if (totalHours === 0) {
-    gpaNum.textContent = '—';
-    gradeLabel.textContent = 'أضف مواد لحساب المعدل';
-    gradeLabel.className = 'result-grade';
-    resultDetails.innerHTML = '';
-    return;
-  }
-
-  const gpa = totalPoints / totalHours;
-  gpaNum.textContent = gpa.toFixed(2);
-
-  // grade label
-  const ratio = gpa / maxGpa;
-  let letterGrade, cls, labelAr;
-  if (ratio >= 0.94)      { letterGrade='A+'; cls='grade-a'; labelAr='ممتاز'; }
-  else if (ratio >= 0.875){ letterGrade='A';  cls='grade-a'; labelAr='ممتاز'; }
-  else if (ratio >= 0.8)  { letterGrade='B';  cls='grade-b'; labelAr='جيد جداً'; }
-  else if (ratio >= 0.7)  { letterGrade='C';  cls='grade-c'; labelAr='جيد'; }
-  else if (ratio >= 0.6)  { letterGrade='D';  cls='grade-d'; labelAr='مقبول'; }
-  else                    { letterGrade='F';  cls='grade-f'; labelAr='راسب'; }
-
-  gradeLabel.textContent = labelAr;
-  gradeLabel.className = 'result-grade ' + cls;
-
-  resultDetails.innerHTML = `
-    <div class="detail-item">
-      <div class="detail-val">${totalHours}</div>
-      <div class="detail-lbl">ساعات معتمدة</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-val">${courses.length}</div>
-      <div class="detail-lbl">عدد المواد</div>
-    </div>
-    <div class="detail-item">
-      <div class="detail-val">${totalPoints.toFixed(1)}</div>
-      <div class="detail-lbl">مجموع النقاط</div>
-    </div>
-  `;
+function calculate(){
+  const gl=getGradeList(),maxGpa=getMaxGpa(),t=tx();
+  let pts=0,hrs=0;
+  courses.forEach(c=>{const g=gl.find(x=>x.letter===c.grade);if(g&&c.hours>0){pts+=g.gpa*c.hours;hrs+=c.hours;}});
+  document.getElementById('scaleLabel').textContent='/'+maxGpa.toFixed(1);
+  const gpaEl=document.getElementById('gpaNum'),gradeEl=document.getElementById('gradeLabel'),detEl=document.getElementById('resultDetails');
+  if(hrs===0){gpaEl.textContent='—';gradeEl.textContent=t.empty;gradeEl.className='result-grade';detEl.innerHTML='';return;}
+  const gpa=pts/hrs;
+  gpaEl.textContent=gpa.toFixed(2);
+  const r=gpa/maxGpa;
+  let cls,lbl;
+  if(r>=0.94){cls='grade-a';lbl=t.grades.a;}
+  else if(r>=0.875){cls='grade-a';lbl=t.grades.a;}
+  else if(r>=0.8){cls='grade-b';lbl=t.grades.b;}
+  else if(r>=0.7){cls='grade-c';lbl=t.grades.c;}
+  else if(r>=0.6){cls='grade-d';lbl=t.grades.d;}
+  else{cls='grade-f';lbl=t.grades.f;}
+  gradeEl.textContent=lbl;gradeEl.className='result-grade '+cls;
+  detEl.innerHTML=`
+    <div class="detail-item"><div class="detail-val">${hrs}</div><div class="detail-lbl">${t.details.hours}</div></div>
+    <div class="detail-item"><div class="detail-val">${courses.length}</div><div class="detail-lbl">${t.details.courses}</div></div>
+    <div class="detail-item"><div class="detail-val">${pts.toFixed(1)}</div><div class="detail-lbl">${t.details.points}</div></div>`;
 }
 
-// ─── Grade Reference Table ────────────────────────────
-function updateRef() {
-  const gradeList = getGradeList();
-  const table = document.getElementById('gradeTable');
-  table.innerHTML = `<tr><th>الدرجة</th><th>النسبة المئوية</th><th>GPA</th></tr>` +
-    gradeList.map(g=>`<tr><td>${g.letter}</td><td>${g.min}%+</td><td style="font-family:'IBM Plex Mono',monospace">${g.gpa.toFixed(2)}</td></tr>`).join('');
-}
-function toggleRef() {
-  const btn = document.getElementById('refToggle');
-  const wrap = document.getElementById('refTable');
-  btn.classList.toggle('open');
-  wrap.classList.toggle('open');
+function updateRef(){
+  const gl=getGradeList(),t=tx(),isAr=lang==='ar';
+  const align=isAr?'right':'left';
+  document.getElementById('gradeTable').innerHTML=
+    `<tr>${t.refHeaders.map(h=>`<th style="text-align:${align}">${h}</th>`).join('')}</tr>`+
+    gl.map(g=>`<tr><td style="text-align:${align}">${g.letter}</td><td style="text-align:${align}">${g.min}%+</td><td style="font-family:'IBM Plex Mono',monospace;text-align:${align}">${g.gpa.toFixed(2)}</td></tr>`).join('');
 }
 
-function resetAll() {
-  courses = [];
-  render();
+function toggleRef(){
+  document.getElementById('refToggle').classList.toggle('open');
+  document.getElementById('refTable').classList.toggle('open');
 }
+function resetAll(){courses=[];render();}
 
-// ─── Init ─────────────────────────────────────────────
-updateRef();
-addCourse();
-addCourse();
-addCourse();
+updateRef();addCourse();addCourse();addCourse();
 
-// ─── PWA: Register Service Worker ─────────────────────
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(() => console.log('SW registered'))
-      .catch(e => console.log('SW error:', e));
-  });
-}
-
-// ─── PWA: Install Button ──────────────────────────────
+if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('installBtn').style.display = 'block';
-});
-window.addEventListener('appinstalled', () => {
-  document.getElementById('installBtn').style.display = 'none';
-});
-function installApp() {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
-  }
-}
+window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBtn').style.display='block';});
+window.addEventListener('appinstalled',()=>{document.getElementById('installBtn').style.display='none';});
+function installApp(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{deferredPrompt=null;});}}
 </script>
 </body>
 </html>
